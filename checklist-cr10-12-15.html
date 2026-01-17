@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist – Preventiva CR 10 / 12 / 15</title>
+
+<link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEj_YGBHTEY0lepQ4EHv0oHu0rzwqUutA1inzJ_dpOqHWzTFl9lAt-bg9dd0azB7mVBMCHulsfd0u3WdE06xoJPsDkNuG5t-kAFD5XM6NJzw6N22uALkPk505Fbbrux01QcDbx2Y41O-ihVkiuooC-w5v7rWthEc0tZS0mmCntPmfhoCnxRALxAEvyYQokqG">
+
+<style>
+:root {
+  --cor-primary: #a51e23;
+  --cor-secondary: #363636;
+  --bg-body: #f1f5f9;
+  --bg-card: #ffffff;
+  --texto-main: #1e293b;
+  --texto-muted: #64748b;
+  --borda-suave: #e2e8f0;
+  --borda-input-dark: #363636;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--texto-main);
+  background: var(--bg-body);
+  line-height: 1.5;
+}
+
+/* ===== CABEÇALHO CENTRALIZADO ===== */
+header {
+  background: var(--bg-card);
+  border-bottom: 3px solid var(--cor-primary);
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza no Desktop */
+  gap: 20px;
+  text-align: center;
+}
+
+header img {
+  height: 55px;
+  object-fit: contain;
+}
+
+.header-text .title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-primary);
+  line-height: 1.2;
+}
+
+.header-text .subtitle {
+  font-size: 0.85rem;
+  color: var(--texto-muted);
+  font-weight: 500;
+}
+
+/* ===== CONTEÚDO ===== */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px 120px;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--borda-suave);
+}
+
+.card h2 {
+  margin: 0 0 15px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borda-suave);
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@media (max-width: 600px) {
+  .field { grid-template-columns: 1fr; }
+  .header-wrap { flex-direction: column; gap: 10px; }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--texto-muted);
+  text-transform: uppercase;
+}
+
+input[type=text],
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--borda-input-dark);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+input[type=text]:focus,
+input[type=date]:focus {
+  outline: none;
+  border-color: var(--cor-primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(165, 30, 35, 0.1);
+}
+
+/* ===== CHECKLIST ===== */
+ul.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+}
+
+input[type=checkbox] {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  accent-color: var(--cor-primary);
+  cursor: pointer;
+}
+
+/* ===== ALERTA ===== */
+.alert {
+  background: #fff5f5;
+  border-left: 5px solid var(--cor-primary);
+  color: #741b1e;
+  font-size: 0.9rem;
+}
+
+/* ===== ASSINATURA ===== */
+.signature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .signature { grid-template-columns: 1fr; }
+}
+
+.sig-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#signature-pad {
+  width: 100%;
+  height: 150px;
+  border: 1px solid var(--borda-input-dark);
+  border-radius: var(--radius);
+  background: #fff;
+  touch-action: none;
+}
+
+.btn-inline-clear {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid var(--borda-suave);
+  background: #fff;
+  color: var(--texto-muted);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* ===== AÇÕES FLUTUANTES ===== */
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.floating-actions input {
+  flex: 1;
+  border: none;
+  padding: 16px 10px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-print { background: var(--cor-primary); color: #fff; box-shadow: 0 10px 20px rgba(165, 30, 35, 0.3); }
+.btn-reset { background: var(--cor-secondary); color: #fff; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+
+/* ===== IMPRESSÃO ===== */
+@media print {
+  body { background: #fff; }
+  header { position: relative; box-shadow: none; }
+  .header-wrap { flex-direction: row; gap: 20px; text-align: left; justify-content: flex-start; }
+  main { margin: 0; padding: 10px; }
+  .floating-actions, .btn-inline-clear { display: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" alt="Med Plus Logo">
+    <div class="header-text">
+      <div class="title">Checklist – Preventiva CR 10 / 12 / 15</div>
+      <div class="subtitle">MED PLUS – Manutenção de Equipamentos Médicos</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="card">
+  <div class="field">
+    <div class="input-group">
+      <label>Cliente</label>
+      <input type="text" id="cliente" placeholder="Nome da instituição">
+    </div>
+    <div class="input-group">
+      <label>Responsável (Cliente)</label>
+      <input type="text" id="responsavel" placeholder="Quem acompanhou">
+    </div>    
+    <div class="input-group">
+      <label>Data</label>
+      <input type="date" id="data">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>1. Teste Inicial</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Realizar teste de imagem <b>antes de desligar o CR</b> para verificar possíveis defeitos</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>2. Cassette Unit</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Desligar o CR</span></li>
+    <li><input type="checkbox"> <span>Retirar o cassette unit</span></li>
+    <li><input type="checkbox"> <span>Desparafusar os <b><i>4 parafusos traseiros</i></b></span></li>
+    <li><input type="checkbox"> <span>Retirar parte interna</span></li>
+    <li><input type="checkbox"> <span>Reapertar parafusos dos trilhos</span></li>
+    <li><input type="checkbox"> <span>Reapertar demais parafusos <b><i>não pintados de fábrica.</i></b></span></li>
+    <li><input type="checkbox"> <span>Lubrificar trilhos</span></li>
+    <li><input type="checkbox"> <span>Analisar o estado de conservação das molas. <b><i> ( Se necessário, realizar substituição )</i></b></span></li>
+    <li><input type="checkbox"> <span>Reencaixar a parte interna do cassette unit na carcaça.</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>3. Drawer</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Retirar com cuidado</span></li>
+    <strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Atenção: Nos modelos CR 10/12X existe um sensor na lateral direita do Drawer</strong><br>
+    <li><input type="checkbox"> <span>Reencaixar o cassette unit</span></li>
+    <li><input type="checkbox"> <span>Realizar limpeza do rolo interno do CR com <b><i>Álcool isopropílico</i></b></span></li>
+    <li><input type="checkbox"> <span>Remontar o Drawer</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>4. Teste Final</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Ligar o CR</span></li>
+    <li><input type="checkbox"> <span>Resetar o <b>Contador de Manutenção</b> <i>(acesso remoto via Browser)</i></span></li>
+    <li><input type="checkbox"> <span>Realizar novo teste de imagem</span></li>
+  </ul>
+</div>
+
+<div class="card alert">
+  <strong>⚠️ Orientações importantes</strong><br>
+  <div style="margin-top:10px; font-size: 0.85rem;">
+    ● Usar apenas álcool isopropílico<br>
+    ● Não mexer em parafusos pintados<br>
+    ● Lubrificação moderada<br>
+    ● Manusear o drawer com cuidado
+  </div>
+</div>
+
+<div class="signature">
+  <div class="input-group">
+    <label>Visto responsável</label>
+    <input type="text" id="visto" placeholder="Nome para o arquivo">
+  </div>
+
+  <div class="sig-container">
+    <label>Assinatura Digital</label>
+    <canvas id="signature-pad"></canvas>
+    <button type="button" class="btn-inline-clear" onclick="clearSignature()">Limpar assinatura</button>
+  </div>
+</div>
+
+<div class="floating-actions">
+  <input type="button" value="Limpar Formulário" class="btn-reset" onclick="limparTudo()">
+  <input type="button" value="Salvar / Imprimir PDF" class="btn-print" onclick="salvarPDF()">
+</div>
+
+</main>
+
+<script>
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+}
+
+window.addEventListener("load", resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
+
+let drawing = false;
+canvas.addEventListener("pointerdown", e => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+canvas.addEventListener("pointermove", e => { if(!drawing) return; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
+canvas.addEventListener("pointerup", () => drawing = false);
+canvas.addEventListener("pointerleave", () => drawing = false);
+
+function clearSignature(){ ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+function limparTudo() {
+  if (confirm("Deseja realmente limpar todo o formulário?")) {
+    document.querySelectorAll('input[type="text"], input[type="date"]').forEach(i => i.value = '');
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    clearSignature();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function salvarPDF(){
+  const visto = document.getElementById("visto").value.trim();
+  const cliente = document.getElementById("cliente").value.trim();
+  const dataInput = document.getElementById("data").value;
+  let dataF = dataInput ? dataInput.split("-").reverse().join("-") : "Sem_Data";
+  
+  const nomeArquivo = `${visto || "Visto"} - ${cliente || "Cliente"} - Checklist CR - ${dataF}`;
+  const originalTitle = document.title;
+  document.title = nomeArquivo;
+  window.print();
+  setTimeout(() => { document.title = originalTitle; }, 500);
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>

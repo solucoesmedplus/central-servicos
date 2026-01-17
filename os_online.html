@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OS On-line | Med Plus</title>
+
+    <link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEhOTG15yPLfQ0IHI5vSAC0MKMDHWgJDZynAPSvwVDIkVLiPX5A6Qf4blmZTxVxcXGB-_Op0nqPHkHJPIdyVdYKm_nOaL35Dw1pgHQ5yR6E33iFMhCrz5t2d7Ab4Rps1ky_5eduohZstcSCGSh_4Jk2TukKd1l24tkRtgeRWw-_DzZZ8UnRLHtiYF5x0bzR6" type="image/x-icon">
+
+    <style>
+        :root {
+            --primary: #c3080f;
+            --primary-hover: #a1060b;
+            --dark: #333333;
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --border:  #cccccc;
+            --text: #1e293b;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            border-bottom: 3px solid var(--primary);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        header img { width: 180px; }
+        header h2 { margin: 5px 0 0; font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        main { margin: 20px auto 100px; max-width: 800px; padding: 0 15px; }
+
+        .form-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+        label { font-weight: 700; font-size: 0.8rem; margin-bottom: 5px; display: block; color: var(--dark); text-transform: uppercase; }
+
+        input, textarea, select {
+            width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: 1rem; box-sizing: border-box; transition: 0.2s;
+        }
+
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(195, 8, 15, 0.1); }
+
+        .equipamento-item {
+            display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px;
+            background: #f1f5f9; padding: 10px; border-radius: 8px; margin-bottom: 10px; align-items: end;
+        }
+        @media (max-width: 500px) { .equipamento-item { grid-template-columns: 1fr; } }
+
+        .remove-btn { background: #fff; border: 1px solid #fca5a5; color: #ef4444; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+
+        #signature-pad { width: 100%; height: 200px; border: 2px dashed var(--border); border-radius: var(--radius); background: #fff; touch-action: none; }
+
+        .btn {
+            background: var(--primary); color: #fff; border: none; border-radius: var(--radius); 
+            padding: 16px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1rem;
+        }
+
+        .btn-secondary { background: var(--dark); color: #fff; border: none; border-radius: 8px; padding: 8px 15px; cursor: pointer; margin-top: 10px; }
+
+        #printSection { display: none; }
+
+        @media print {
+            header, .btn, .btn-secondary, footer, .no-print { display: none !important; }
+            #atendimentoForm { display: none !important; }
+            #printSection { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png">
+    <h2>Ordem de Serviço On-Line</h2>
+</header>
+
+<main>
+    <form id="atendimentoForm">
+        <div class="form-card">
+            <div class="grid">
+                <div style="grid-column: 1 / -1;"><label>Técnico</label><input id="tecnico" autofocus></div>
+                <div style="grid-column: 1 / -1;"><label>Cliente</label><input id="cliente"></div>
+                <div><label>Contato</label><input id="contato"></div>
+                <div><label>WhatsApp</label><input id="telefone" placeholder="(00) 00000-0000"></div>
+                <div><label>CNPJ</label><input id="cnpj" placeholder="00.000.000/0000-00"></div>
+                <div><label>Data</label><input type="date" id="data"></div>
+                <div style="grid-column: 1 / -1;"><label>Endereço</label><input id="endereco"></div>
+                <div><label>Chegada</label><input type="time" id="hora_chegada"></div>
+                <div><label>Saída</label><input type="time" id="hora_saida"></div>
+                <div>
+                    <label>Chamado</label>
+                    <select id="chamado"><option>Selecione...</option><option>Em andamento</option><option>Finalizado</option></select>
+                </div>
+                <div>
+                    <label>Situação</label>
+                    <select id="situacao"><option>Selecione...</option><option>Aluguel</option><option>Avulso</option><option>Contrato</option><option>Garantia</option></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <label>Equipamentos</label>
+            <div id="equipamentosContainer"></div>
+            <button type="button" class="btn-secondary" onclick="adicionarEquipamento()">+ Adicionar Equipamento</button>
+        </div>
+
+        <div class="form-card">
+            <label>Descrição da Falha</label><textarea id="falha" rows="3"></textarea>
+            <label style="margin-top:10px">Ação Tomada</label><textarea id="acao" rows="3"></textarea>
+        </div>
+
+        <div class="form-card">
+            <label>Assinatura do Cliente</label>
+            <canvas id="signature-pad"></canvas>
+            <button type="button" class="btn-secondary" onclick="limparAssinatura()">Limpar</button>
+        </div>
+
+        <button type="button" class="btn" onclick="gerarAtendimento()">GERAR RELATÓRIO</button>
+    </form>
+
+    <section id="printSection">
+        <div class="form-card">
+            <div style="display:flex; justify-content: space-between; align-items: start; border-bottom: 2px solid var(--primary); padding-bottom:10px; margin-bottom:20px;">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" width="150">
+                <div style="text-align:right">
+                    <p><strong>OS Nº: <span id="osNumero"></span></strong></p>
+                    <p style="font-size:12px">MedPlus+: (11) 97074-6310</p>
+                </div>
+            </div>
+            <div id="dadosGerados"></div>
+            <div style="margin-top:20px">
+                <label>Visto do Cliente</label>
+                <img id="assinaturaImg" style="width:100%; border:1px solid var(--border); border-radius:8px">
+            </div>
+            <div style="margin-top:20px; display:flex; gap:10px" class="no-print">
+                <button class="btn" onclick="window.print()">IMPRIMIR</button>
+                <button class="btn" style="background:#333" onclick="location.reload()">NOVO</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    // Seleção de elementos
+    const form = document.getElementById('atendimentoForm');
+    const inputTecnico = document.getElementById('tecnico'); // Selecionado para foco
+    const inputTelefone = document.getElementById('telefone');
+    const inputCnpj = document.getElementById('cnpj');
+    const canvas = document.getElementById("signature-pad");
+    const ctx = canvas.getContext("2d");
+    const containerEquip = document.getElementById("equipamentosContainer");
+    
+    // Focar no campo técnico ao carregar
+    window.onload = () => { inputTecnico.focus(); };
+
+    // Máscaras
+    inputTelefone.addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "");
+        v = v.length > 11 ? v.slice(0, 11) : v;
+        e.target.value = v.replace(/^(\d{2})(\d)/, "($1) $2").replace(v.length <= 10 ? /(\d{4})(\d)/ : /(\d{5})(\d)/, "$1-$2");
+    });
+
+    inputCnpj.addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "").slice(0, 14);
+        e.target.value = v.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
+    });
+
+    // Assinatura
+    let desenhando = false;
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    canvas.addEventListener("pointerdown", e => { desenhando = true; ctx.beginPath(); const r = canvas.getBoundingClientRect(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top); });
+    canvas.addEventListener("pointermove", e => { if (!desenhando) return; const r = canvas.getBoundingClientRect(); ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); });
+    canvas.addEventListener("pointerup", () => desenhando = false);
+
+    function limparAssinatura() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    // Equipamentos
+    function adicionarEquipamento(){
+        const div = document.createElement("div");
+        div.className = "equipamento-item";
+        div.innerHTML = `<input placeholder="Modelo"><input placeholder="Serial"><input placeholder="Marca"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;
+        containerEquip.appendChild(div);
+    }
+    adicionarEquipamento();
+
+    // Gerar OS
+    function gerarAtendimento(){
+        const os = Math.floor(100000 + Math.random()*900000);
+        document.getElementById("osNumero").innerText = os;
+        
+        let equipTxt = "";
+        document.querySelectorAll(".equipamento-item").forEach((el, i) => {
+            const inps = el.querySelectorAll("input");
+            if(inps[0].value) equipTxt += `<p><strong>Equip. ${i+1}:</strong> ${inps[0].value} | SN: ${inps[1].value} | ${inps[2].value}</p>`;
+        });
+
+        document.getElementById("dadosGerados").innerHTML = `
+            <p><strong>Técnico:</strong> ${inputTecnico.value}</p>
+            <p><strong>Cliente:</strong> ${document.getElementById("cliente").value}</p>
+            <p><strong>Contato:</strong> ${document.getElementById("contato").value} | <strong>WhatsApp:</strong> ${inputTelefone.value}</p>
+            <p><strong>CNPJ:</strong> ${inputCnpj.value}</p>
+            <p><strong>Endereço:</strong> ${document.getElementById("endereco").value}</p>
+            <p><strong>Data:</strong> ${document.getElementById("data").value.split('-').reverse().join('/')} | <strong>Horário:</strong> ${document.getElementById("hora_chegada").value}  às  ${document.getElementById("hora_saida").value}</p>
+            <hr>
+            ${equipTxt}
+            <hr>
+            <p><strong>Falha:</strong> ${document.getElementById("falha").value}</p>
+            <p><strong>Ação:</strong> ${document.getElementById("acao").value}</p>
+        `;
+
+        document.getElementById("assinaturaImg").src = canvas.toDataURL();
+        form.style.display = "none";
+        document.getElementById("printSection").style.display = "block";
+        window.scrollTo(0,0);
+    }
+</script>
+
+</body>
+</html>
