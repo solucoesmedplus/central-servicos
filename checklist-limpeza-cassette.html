@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist – Limpeza de Cassette</title>
+
+<link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEj_YGBHTEY0lepQ4EHv0oHu0rzwqUutA1inzJ_dpOqHWzTFl9lAt-bg9dd0azB7mVBMCHulsfd0u3WdE06xoJPsDkNuG5t-kAFD5XM6NJzw6N22uALkPk505Fbbrux01QcDbx2Y41O-ihVkiuooC-w5v7rWthEc0tZS0mmCntPmfhoCnxRALxAEvyYQokqG">
+
+<style>
+:root {
+  --cor-primary: #a51e23;
+  --cor-secondary: #363636;
+  --bg-body: #f1f5f9;
+  --bg-card: #ffffff;
+  --texto-main: #1e293b;
+  --texto-muted: #64748b;
+  --borda-suave: #e2e8f0;
+  --borda-input-dark: #363636;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--texto-main);
+  background: var(--bg-body);
+  line-height: 1.5;
+}
+
+/* ===== CABEÇALHO CENTRALIZADO ===== */
+header {
+  background: var(--bg-card);
+  border-bottom: 3px solid var(--cor-primary);
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza no Desktop */
+  gap: 20px;
+  text-align: center;
+}
+
+header img {
+  height: 55px;
+  object-fit: contain;
+}
+
+.header-text .title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-primary);
+  line-height: 1.2;
+}
+
+.header-text .subtitle {
+  font-size: 0.85rem;
+  color: var(--texto-muted);
+  font-weight: 500;
+}
+
+/* ===== CONTEÚDO ===== */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px 120px;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--borda-suave);
+}
+
+.card h2 {
+  margin: 0 0 15px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borda-suave);
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@media (max-width: 600px) {
+  .field { grid-template-columns: 1fr; }
+  .header-wrap { flex-direction: column; gap: 10px; }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--texto-muted);
+  text-transform: uppercase;
+}
+
+input[type=text],
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--borda-input-dark);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+input[type=text]:focus,
+input[type=date]:focus {
+  outline: none;
+  border-color: var(--cor-primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(165, 30, 35, 0.1);
+}
+
+/* ===== CHECKLIST ===== */
+ul.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+}
+
+input[type=checkbox] {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  accent-color: var(--cor-primary);
+  cursor: pointer;
+}
+
+/* ===== ALERTA ===== */
+.alert {
+  background: #fff5f5;
+  border-left: 5px solid var(--cor-primary);
+  color: #741b1e;
+  font-size: 0.9rem;
+}
+
+/* ===== ASSINATURA ===== */
+.signature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .signature { grid-template-columns: 1fr; }
+}
+
+.sig-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#signature-pad {
+  width: 100%;
+  height: 150px;
+  border: 1px solid var(--borda-input-dark);
+  border-radius: var(--radius);
+  background: #fff;
+  touch-action: none;
+}
+
+.btn-inline-clear {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid var(--borda-suave);
+  background: #fff;
+  color: var(--texto-muted);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* ===== AÇÕES FLUTUANTES ===== */
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.floating-actions input {
+  flex: 1;
+  border: none;
+  padding: 16px 10px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-print { background: var(--cor-primary); color: #fff; box-shadow: 0 10px 20px rgba(165, 30, 35, 0.3); }
+.btn-reset { background: var(--cor-secondary); color: #fff; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+
+/* ===== IMPRESSÃO ===== */
+@media print {
+  body { background: #fff; }
+  header { position: relative; box-shadow: none; }
+  .header-wrap { flex-direction: row; gap: 20px; text-align: left; justify-content: flex-start; }
+  main { margin: 0; padding: 10px; }
+  .floating-actions, .btn-inline-clear { display: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" alt="Med Plus Logo">
+    <div class="header-text">
+      <div class="title">Checklist – Limpeza de Cassette</div>
+      <div class="subtitle">MED PLUS – Manutenção de Equipamentos Médicos</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="card">
+  <div class="field">
+    <div class="input-group">
+      <label>Cliente</label>
+      <input type="text" id="cliente" placeholder="Nome da instituição">
+    </div>
+    <div class="input-group">
+      <label>Responsável (Cliente)</label>
+      <input type="text" id="responsavel" placeholder="Quem acompanhou">
+    </div>    
+    <div class="input-group">
+      <label>Data</label>
+      <input type="date" id="data">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>1. Avaliação inicial
+</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Verificar as condições dos cassetes ao chegar no cliente</span></li>
+    <li><input type="checkbox"> <span>Confirmar se há necessidade de limpeza (cassetes visivelmente sujos)</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>2. Preparação</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Isolar o chip de identificação localizado na <b><i>parte inferior direita</i></b> do cassete </span></li>
+    <strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Atenção! Esse local não pode entrar em contato com água ou produtos de limpeza.</strong><br>
+    <li><input type="checkbox"> <span>Separar os materiais necessários: </i></b></span></li>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️	Bucha de cozinha macia<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️	Produto de limpeza neutro (ex: CIF ou similar)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️	Pano limpo ou gaze<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️	Algodão<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️	Produto específico “limpa plate” (se necessário)
+  </ul>
+</div>
+
+<div class="card">
+  <h2>3. Limpeza do Cassette</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Umedecer a bucha com produto de limpeza adequado</span></li>
+    <li><input type="checkbox"> <span>Limpar cuidadosamente toda a superfície externa do Cassette</span></li>
+    <li><input type="checkbox"> <span>Remover quaisquer resquícios de produto de limpeza da superfície</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>4. Teste inicial</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Realizar um <b><i>teste de imagem</i></b> após a limpeza externa do Cassette</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>5. Limpeza do Plate (quando necessário)</h2>
+  <ul class="checklist">
+    <li><input type="checkbox"> <span>Retirar o Plate de dentro do Cassette</span></li>
+    <li><input type="checkbox"> <span>Umedecer levemente um pano limpo ou gaze com “Limpa Plate”</span></li>
+    <strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Atenção! O pano deve estar apenas úmido, nunca encharcado</strong><br>
+    <li><input type="checkbox"> <span>Passar o pano com movimentos retos, de cima para baixo</span></li>
+    <li><input type="checkbox"> <span>Deixar o plate secar por alguns minutos em local seguro e limpo</span></li>
+    <li><input type="checkbox"> <span>Passar delicadamente um algodão sobre a superfície para retirar os resíduos restantes</span></li>
+    <li><input type="checkbox"> <span>Recolocar o Plate dentro do Cassette</span></li>
+    <li><input type="checkbox"> <span>Realizar novo <b><i>teste de imagem</i></b></span></li>
+  </ul>
+</div>
+
+<div class="card alert">
+  <strong>⚠️ Orientações importantes</strong><br>
+  <div style="margin-top:10px; font-size: 0.85rem;">
+    ● Nunca aplicar produto de limpeza diretamente sobre o Cassette ou Plate — sempre usar pano/gaze/algodão levemente umedecido<br>
+    ● Evitar movimentos circulares no plate, utilizar apenas movimentos retos (de cima para baixo) para não riscar a superfície<br>
+    ● Garantir que o Plate esteja completamente seco antes de colocá-lo novamente no Cassette<br>
+    ● Armazenar os cassetes em local limpo e seco após o procedimento
+  </div>
+</div>
+
+<div class="signature">
+  <div class="input-group">
+    <label>Visto responsável</label>
+    <input type="text" id="visto" placeholder="Nome para o arquivo">
+  </div>
+
+  <div class="sig-container">
+    <label>Assinatura Digital</label>
+    <canvas id="signature-pad"></canvas>
+    <button type="button" class="btn-inline-clear" onclick="clearSignature()">Limpar assinatura</button>
+  </div>
+</div>
+
+<div class="floating-actions">
+  <input type="button" value="Salvar / Imprimir PDF" class="btn-print" onclick="salvarPDF()">
+  <input type="button" value="Limpar Formulário" class="btn-reset" onclick="limparTudo()">
+</div>
+
+</main>
+
+<script>
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+}
+
+window.addEventListener("load", resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
+
+let drawing = false;
+canvas.addEventListener("pointerdown", e => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+canvas.addEventListener("pointermove", e => { if(!drawing) return; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
+canvas.addEventListener("pointerup", () => drawing = false);
+canvas.addEventListener("pointerleave", () => drawing = false);
+
+function clearSignature(){ ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+function limparTudo() {
+  if (confirm("Deseja realmente limpar todo o formulário?")) {
+    document.querySelectorAll('input[type="text"], input[type="date"]').forEach(i => i.value = '');
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    clearSignature();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function salvarPDF(){
+  const visto = document.getElementById("visto").value.trim();
+  const cliente = document.getElementById("cliente").value.trim();
+  const dataInput = document.getElementById("data").value;
+  let dataF = dataInput ? dataInput.split("-").reverse().join("-") : "Sem_Data";
+  
+  const nomeArquivo = `${visto || "Visto"} - ${cliente || "Cliente"} - Checklist CR - ${dataF}`;
+  const originalTitle = document.title;
+  document.title = nomeArquivo;
+  window.print();
+  setTimeout(() => { document.title = originalTitle; }, 500);
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
