@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Usuário DRTECH - MedPlus</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEhOTG15yPLfQ0IHI5vSAC0MKMDHWgJDZynAPSvwVDIkVLiPX5A6Qf4blmZTxVxcXGB-_Op0nqPHkHJPIdyVdYKm_nOaL35Dw1pgHQ5yR6E33iFMhCrz5t2d7Ab4Rps1ky_5eduohZstcSCGSh_4Jk2TukKd1l24tkRtgeRWw-_DzZZ8UnRLHtiYF5x0bzR6">
+
+    <style>
+        /* --- Paleta de Cores e Variáveis --- */
+        :root {
+            --primary-color: #546e7a;
+            --bg-color: #f4f7f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --icon-bg: #e2eaed;
+            --accent-color: #a51e23;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-top: 100px;
+        }
+
+        /* Trava a rolagem da página quando o vídeo abrir */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* --- Cabeçalho Fixo --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 25px rgba(84, 110, 122, 0.3);
+            border-bottom: 2px solid #a51e23;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 5%;
+            height: 80px;
+        }
+
+        .header-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .logo {
+            max-height: 45px;
+            object-fit: contain;
+        }
+
+        /* --- Corpo da Página --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px 50px 20px;
+        }
+
+        h2 {
+            color: #a51e23;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            display: block;
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* --- Lista de Vídeos --- */
+        .video-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .video-list li {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            border-left: 5px solid var(--primary-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .video-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-left-color: var(--accent-color);
+        }
+
+        .video-list a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--icon-bg);
+            color: var(--primary-color);
+            margin-right: 20px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .play-svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-left: 4px;
+        }
+
+        .video-list li:hover .icon {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        /* --- POPUP (MODAL) ESTILO TV --- */
+        .modal {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Fundo escuro com leve transparência */
+            backdrop-filter: blur(5px); /* Efeito de desfoque no fundo (moderno) */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Quando ativado, mostra o modal */
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* O aparelho de "TV" */
+        .modal-content {
+            position: relative;
+            width: 95%; /* Ocupa quase a tela toda no celular */
+            max-width: 1000px; /* Limite máximo no computador */
+            background: #a51e23; /* Cor da moldura da TV */
+            border-radius: 20px; /* Bordas arredondadas externas */
+            border: 4px solid #333; /* Borda fina da TV */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            padding: 8px; /* Espaço entre a borda e a "tela" */
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1); /* Animação de pulo ao abrir */
+        }
+
+        /* Container para manter o vídeo no formato 16:9 sempre perfeito */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporção 16:9 de TVs e Celulares deitados */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px; /* Arredondamento da tela interna */
+            background-color: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Botão de Fechar (X) */
+        .close-btn {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Otimização para Mobile (Celulares) --- */
+        @media (max-width: 600px) {
+            header {
+                height: auto;
+                padding: 15px 5%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .header-title {
+                display: none;
+            }
+            .logo {
+                max-height: 35px;
+            }
+            body {
+                padding-top: 80px;
+            }
+            h2 {
+                font-size: 1.4rem;
+                margin-bottom: 30px;
+            }
+            .video-list a {
+                font-size: 0.85rem;
+                padding: 14px 15px;
+            }
+            .icon {
+                width: 38px;
+                height: 38px;
+                margin-right: 15px;
+            }
+            .play-svg {
+                width: 16px;
+                height: 16px;
+            }
+            
+            /* Ajustes do Modal para Mobile */
+            .modal-content {
+                width: 98%;
+                border-width: 2px;
+                padding: 4px;
+                border-radius: 12px;
+            }
+            .video-container {
+                border-radius: 8px;
+            }
+            .close-btn {
+                top: -35px;
+                right: 5px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" width="120" alt="Logo MedPlus" class="logo">
+        <span class="header-title">MANUAL DO USUÁRIO DRTECH</span>
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjW8-CoOjNwMKYwxqsrpgpnxdcsK3nIzZLL2tyDUtN-5Rn2le2vLnZJaHDMYWC5SD9Pq6em0a-Dh57wwdWHZmY0CL8BlUCq9kDGps8AOA3DU5ntDuDnSXW67Y5WR_Vi5vsLKh4V0S4EB0G_u5Rs24GP32_zyDy7kPvzyc76gUzIiUcKr8m7j_xhH35Lxzcq" width="90" alt="Logo DRTECH" class="logo">
+    </header>
+
+    <main class="container">
+        <h2>MANUAL DO USUÁRIO DRTECH</h2>
+
+        <ul class="video-list">
+            <li>
+                <a href="https://drive.google.com/file/d/1hz_unJnfUSgDLNXSKZDNcX9TOp1mhYqf/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>PARA REALIZAR O CADASTRO, SELECIONAR ESTRUTURAS E COMEÇAR O EXAME</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1oH4XPm5ScO9SAAZHtQHUM1yg7fgXuOkO/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>EDIÇÕES DE CADASTRO</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1hsA7wxnFgdZAE1WeJI9wwbxslslIR7yk/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>USANDO FERRAMENTAS BÁSICAS PARA EDITAR O EXAME</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1QjMneqo9wFjdOMW7MnelgMLbAUl2v6Ij/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>PARA ABRIR UMA PASTA JÁ FECHADA PARA ADICIONAR MAIS IMAGENS</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1zFdZQ6QgGSrOppwrdCMyj2uTbtS0SB2I/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>COLIMAÇÃO</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1sD2OoE_T58MM8WzMdPyu0CEuGygUB8ee/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>ROTAÇÃO</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1ztbl1QhCcnV3kQnJsBgIwd6GHtD9sfw4/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>TRANSFERIR IMAGENS</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1pS5XywRxYWJ1eCC168UxyzFgCNyfVZ4L/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>UNIR IMAGENS - PANORÂMICA</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://drive.google.com/file/d/1m6WWVhRwN_LZO8g2ipK8QTVgJ6xknLYT/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>COPIAR IMAGEM ( GUARDAR COMO NOVA )</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://drive.google.com/file/d/17mnQ_WWBRPJDUFW15XZMIfLlRaIbn88n/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>INSERIR TEXTO</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://drive.google.com/file/d/1BExIMQecMSM2ruGL3Crp9GbTp5SIA1VS/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>TEXTOS PRÉ-DEFINIDOS</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://drive.google.com/file/d/1HEBKKGjGI9GJvWm6Q6KmM8PDKycKFhRa/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>AJUSTE DE FILTROS</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://drive.google.com/file/d/1XZ5xdBQyYGyNVyN7B3ZY_glZlj7M3t3k/view?usp=sharing">
+                    <div class="icon">
+                        <svg class="play-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span>ÁREA DAS FERRAMENTAS</span>
+                </a>
+            </li>
+
+        </ul>
+    </main>
+
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <div class="video-container">
+                <iframe id="videoFrame" src="" allow="autoplay" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoFrame');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const links = document.querySelectorAll('.video-list a');
+
+            // Quando clicar em qualquer link da lista
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Impede de ir para outra página
+                    
+                    let videoUrl = this.href;
+                    
+                    // Mágica: Transforma o link normal do Drive em link de visualização embutida
+                    if(videoUrl.includes('drive.google.com') && videoUrl.includes('/view')) {
+                        videoUrl = videoUrl.replace('/view?usp=sharing', '/preview');
+                    }
+                    
+                    // Coloca o vídeo na TV e mostra a TV
+                    iframe.src = videoUrl;
+                    modal.classList.add('show');
+                    document.body.classList.add('modal-open');
+                });
+            });
+
+            // Função para fechar o modal
+            function fecharModal() {
+                modal.classList.remove('show');
+                document.body.classList.remove('modal-open');
+                
+                // Espera a animação terminar e desliga o vídeo
+                setTimeout(() => {
+                    iframe.src = '';
+                }, 300);
+            }
+
+            // Fecha se clicar no "X"
+            closeBtn.addEventListener('click', fecharModal);
+
+            // Fecha se clicar fora da TV (no fundo escuro)
+            modal.addEventListener('click', function(event) {
+                if(event.target === modal) {
+                    fecharModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
