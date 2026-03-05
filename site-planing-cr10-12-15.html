@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Planning – CR10 | 12 | 15-X</title>
+
+<link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEj_YGBHTEY0lepQ4EHv0oHu0rzwqUutA1inzJ_dpOqHWzTFl9lAt-bg9dd0azB7mVBMCHulsfd0u3WdE06xoJPsDkNuG5t-kAFD5XM6NJzw6N22uALkPk505Fbbrux01QcDbx2Y41O-ihVkiuooC-w5v7rWthEc0tZS0mmCntPmfhoCnxRALxAEvyYQokqG">
+
+<style>
+/* VARIÁVEIS DO TEMA */
+:root {
+  --cor-primary: #c3080f;
+  --cor-secondary: #363636;
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --texto-main: #1e293b;
+  --texto-muted: #333333;
+  --borda-suave: #E53935; 
+  --borda-input: #cccccc;
+  --radius: 12px;
+  --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.3);
+  --logo-filter: none;
+  --input-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg-body: #222d32;
+  --bg-card: #2c3b41;
+  --cor-primary: #AAAAAA; 
+  --texto-main: #AAAAAA;
+  --texto-muted: #AAAAAA;
+  --input-bg: #2A2A2A;
+  --borda-suave: #E53935;
+  --borda-input: #444444;
+  --logo-filter: brightness(0) saturate(100%) invert(75%) sepia(0%) saturate(0%) hue-rotate(175deg) brightness(91%) contrast(89%);
+  --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.6);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--texto-main);
+  background: var(--bg-body);
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ===== CABEÇALHO ===== */
+header {
+  background: var(--bg-card);
+  border-bottom: 3px solid #c3080f;
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.3s ease;
+}
+
+.header-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  position: relative;
+}
+
+header img {
+  height: 55px;
+  object-fit: contain;
+  filter: var(--logo-filter);
+  transition: filter 0.4s ease;
+}
+
+.header-text .title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-primary);
+  line-height: 1.2;
+}
+
+.header-text .subtitle {
+  font-size: 0.85rem;
+  color: var(--texto-muted);
+  font-weight: 500;
+}
+
+/* BOTÃO TEMA */
+.theme-toggle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.theme-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--texto-muted);
+}
+#theme-icon { font-size: 1.3rem; }
+
+/* ===== CONTEÚDO ===== */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px 120px;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--borda-suave);
+}
+
+.card h2 {
+  margin: 0 0 15px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: var(--cor-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--texto-main);
+  text-transform: uppercase;
+}
+
+input[type=text],
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid var(--borda-input);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--texto-main);
+}
+
+/* GRID DE ESPECIFICAÇÕES */
+.tech-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.spec-item {
+  background: var(--bg-card);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border: 1px solid var(--borda-suave);
+}
+
+.spec-item h3 {
+  margin-top: 0;
+  font-size: 1.1em;
+  border-bottom: 2px solid var(--borda-input);
+  padding-bottom: 8px;
+  color: var(--cor-primary);
+}
+
+/* Bordas Laterais */
+.temperatura { border-left: 6px solid #2b2b2b; }
+.dimensoes { border-left: 6px solid #3498db; }
+.energia { border-left: 6px solid #e67e22; }
+.alimentacao { border-left: 6px solid #f1c40f; }
+.rede { border-left: 6px solid #2980b9; }
+.ups { border-left: 6px solid #16a085; }
+
+#signature-pad {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed var(--borda-input);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.btn-print { background: #c3080f; color: #fff; border:none; padding:16px; border-radius:50px; font-weight:700; cursor:pointer; flex:1; text-transform:uppercase; }
+.btn-reset { background: var(--cor-secondary); color: #fff; border:none; padding:16px; border-radius:50px; font-weight:700; cursor:pointer; flex:1; text-transform:uppercase; }
+
+/* ===== CONFIGURAÇÕES DE IMPRESSÃO PROFISSIONAL ===== */
+@media print {
+  @page { margin: 1cm; size: A4; }
+  
+  body { background: white !important; color: black !important; padding: 0; margin: 0; width: 100%; }
+  
+  header { position: static !important; box-shadow: none !important; border-bottom: 2px solid #000 !important; margin-bottom: 10px; }
+  
+  .header-wrap { display: flex !important; flex-direction: row !important; align-items: center !important; text-align: left !important; gap: 15px !important; justify-content: flex-start !important; }
+  
+  header img { filter: grayscale(1) !important; height: 50px !important; }
+  
+  .theme-toggle, .floating-actions, .btn-inline-clear, button { display: none !important; }
+  
+  main { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  
+  .card { 
+    border: 1px solid #ddd !important; 
+    box-shadow: none !important; 
+    margin-bottom: 15px !important; 
+    page-break-inside: avoid !important; 
+    background: #fff !important; 
+  }
+  
+  .tech-spec-grid { 
+    display: grid !important; 
+    grid-template-columns: 1fr 1fr !important; 
+    gap: 10px !important; 
+  }
+  
+  .spec-item { 
+    border: 1px solid #ddd !important; 
+    box-shadow: none !important; 
+    page-break-inside: avoid !important; 
+    background: #fff !important; 
+    padding: 10px !important;
+  }
+  
+  input[type="text"], input[type="date"] { 
+    border: none !important; 
+    border-bottom: 1px solid #000 !important; 
+    background: transparent !important; 
+    padding: 5px 0 !important; 
+    border-radius: 0 !important;
+  }
+  
+  #signature-pad { border: 1px solid #000 !important; height: 100px !important; width: 100% !important; }
+  
+  label { color: #000 !important; font-size: 0.7rem !important; }
+  strong { color: #000 !important; }
+}
+
+@media (max-width: 600px) {
+  .field { grid-template-columns: 1fr; }
+  .header-wrap { flex-direction: column; gap: 10px; }
+  .theme-toggle { position: relative; transform: none; margin-top: 10px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" alt="Med Plus Logo">
+    <div class="header-text">
+      <div class="title">Site Planning – CR10 | 12 | 15-X</div>
+      <div class="subtitle">MED PLUS – Manutenção de Equipamentos Médicos</div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar Tema">
+        <span class="theme-text">Tema</span>
+        <span id="theme-icon">🌙</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<div class="card">
+  <div class="field">
+    <div class="input-group">
+      <label>Cliente</label>
+      <input type="text" id="cliente" placeholder="Nome da instituição">
+    </div>
+    <div class="input-group">
+      <label>Responsável (Cliente)</label>
+      <input type="text" id="responsavel" placeholder="Quem acompanhou">
+    </div>    
+    <div class="input-group">
+      <label>Data</label>
+      <input type="date" id="data">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🚦 Especificações Técnicas - CR10 | 12 | 15-X</h2>
+  <p><strong>⚠️ ATENÇÃO: ⚠️</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;📌 Solicitamos cumprir rigorosamente cada especificação técnica abaixo, não é apenas uma exigência formal: é a garantia de que o equipamento entrega <b><i>segurança, confiabilidade e excelência operacional</i></b> em qualquer cenário.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;📌 O <b><i>NÃO</i></b> cumprimento desse documento, acarretará no retorno do Técnico à sua base e os custos de <b><i>instalação/deslocamento</i></b> ficará sob responsabilidade do cliente.
+  </p>
+  <div class="tech-spec-grid">
+    <div class="spec-item temperatura">
+      <h3>Ar Condicionado</h3>
+      <p>Operação: <strong>15 °C à 22 °C</strong></p>
+      <p>Umidade: <strong>30% – 75%</strong></p>
+    </div>
+
+    <div class="spec-item dimensoes">
+      <h3>Dimensões e Peso CR</h3>
+      <p><strong>L: ~58cm x - P: ~39cm x - A: ~30cm</strong><br>Peso:<strong> ~23 kg</strong></p>
+      <p>Mesa CR: <strong>Mesa que suporte dimenões e peso</strong></p>
+    </div>
+
+    <div class="spec-item ups">
+      <h3>Mesa Workstation</h3>
+      <p>Espaço para: <strong>Desktop e Periféricos.</strong></p>
+    </div>
+
+    <div class="spec-item energia">
+      <h3>Ligação Elétrica</h3>
+      <p>Nobreak: <strong>2 kVA (Senoidal)</strong></p>
+    </div>
+
+    <div class="spec-item alimentacao">
+      <h3>Alimentação Externa</h3>
+      <p><strong>100 V – 240 V ±10%</strong></p>
+    </div>
+
+    <div class="spec-item rede">
+      <h3>Rede / Internet</h3>
+      <p>Conector: <strong>RJ45</strong></p>
+      <p>Cabo: <strong>CAT5 ou CAT6</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+    <div class="field">
+      <div class="input-group">
+        <label>Visto responsável técnico</label>
+        <input type="text" id="visto" placeholder="Nome do responsável">
+      </div>
+      <div class="input-group">
+        <label>Assinatura Digital</label>
+        <canvas id="signature-pad"></canvas>
+        <button type="button" style="margin-top:5px; cursor:pointer;" onclick="clearSignature()">Limpar assinatura</button>
+      </div>
+    </div>
+</div>
+
+<div class="floating-actions">
+  <input type="button" value="Salvar / Imprimir PDF" class="btn-print" onclick="salvarPDF()">
+  <input type="button" value="Limpar Formulário" class="btn-reset" onclick="limparTudo()">
+</div>
+
+</main>
+
+<script>
+// LÓGICA DE TEMA
+const themeIcon = document.getElementById('theme-icon');
+if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.textContent = '☀️';
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+}
+
+// LÓGICA DE ASSINATURA
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+}
+
+window.addEventListener("load", resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
+
+let drawing = false;
+canvas.addEventListener("pointerdown", e => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+canvas.addEventListener("pointermove", e => { if(!drawing) return; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
+canvas.addEventListener("pointerup", () => drawing = false);
+
+function clearSignature(){ ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+function limparTudo() {
+  if (confirm("Deseja realmente limpar todo o formulário?")) {
+    document.querySelectorAll('input[type="text"], input[type="date"]').forEach(i => i.value = '');
+    clearSignature();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function salvarPDF(){
+  const visto = document.getElementById("visto").value.trim();
+  const cliente = document.getElementById("cliente").value.trim();
+  const dataInput = document.getElementById("data").value;
+  let dataF = dataInput ? dataInput.split("-").reverse().join("-") : "Sem_Data";
+  
+  const nomeArquivo = `${visto || "Visto"} - ${cliente || "Cliente"} - Planning CR - ${dataF}`;
+  const originalTitle = document.title;
+  document.title = nomeArquivo;
+  window.print();
+  setTimeout(() => { document.title = originalTitle; }, 500);
+}
+</script>
+</body>
+</html>
