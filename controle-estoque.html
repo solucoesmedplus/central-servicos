@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema MED PLUS - Controle de Estoque</title>
+    
+    <link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrTFvEPD7Qv6ROuJzCZs8atB5kiiBbwIDV0Yi5-XZ8ge3WyXomC7t2zGXvuqMwAgrSf3xwJkri9DebYPxln1qLQqe1GZkIytBWYiaZmiFS3QYlkQgqLQrYENo-QV6u1z3UQXjwK_0VFHSGmLsKKqaIVjLkmFTjZz9LRWHi0g29yoqNeBb-HR8vMJJ7MyfC/s320/controle-de-estoque.png">
+
+    <style>
+        /* VARIÁVEIS DO TEMA (IGUAL AO CHECKLIST) */
+        :root {
+            --cor-primary: #c3080f;
+            --cor-secondary: #363636;
+            --bg-body: #f5f5f5;
+            --bg-card: #ffffff;
+            --texto-main: #1e293b;
+            --texto-muted: #333333;
+            --borda-suave: #E53935; 
+            --borda-input: #cccccc;
+            --radius: 12px;
+            --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.3);
+            --logo-filter: none;
+            --input-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #222d32;
+            --bg-card: #2c3b41;
+            --cor-primary: #AAAAAA; 
+            --texto-main: #AAAAAA;
+            --texto-muted: #AAAAAA;
+            --input-bg: #2A2A2A;
+            --borda-suave: #E53935; 
+            --borda-input: #444444;
+            --logo-filter: brightness(0) saturate(100%) invert(75%) sepia(0%) saturate(0%) hue-rotate(175deg) brightness(91%) contrast(89%);
+            --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.6);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--texto-main);
+            background: var(--bg-body);
+            line-height: 1.5;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ===== CABEÇALHO PADRONIZADO ===== */
+        header {
+            background: var(--bg-card);
+            border-bottom: 3px solid #c3080f;
+            padding: 20px 16px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        header img {
+            height: 55px;
+            object-fit: contain;
+            filter: var(--logo-filter);
+            transition: filter 0.4s ease;
+        }
+
+        .header-text .title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--cor-primary);
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        /* AJUSTE LOGO MOBILE */
+        @media (max-width: 600px) {
+            .header-wrap { flex-direction: column; gap: 10px; text-align: center; }
+            header img { width: 50%; height: auto; }
+            .theme-toggle { position: relative !important; transform: none !important; margin-top: 10px; }
+        }
+
+        /* BOTÃO TEMA */
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .theme-text { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--texto-muted); }
+
+        /* ===== NAVEGAÇÃO INTERNA ===== */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .nav-menu button {
+            background: var(--bg-card);
+            border: 1px solid var(--borda-suave);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: var(--texto-main);
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-menu button:hover { background: var(--cor-primary); color: white; }
+
+        /* ===== CARDS E FORMULÁRIOS ===== */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 16px 120px; }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--borda-suave);
+            text-align: center;
+        }
+
+        .dash-card-list {
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            padding: 5px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .dash-card-list ul { padding-left: 20px; margin: 5px 0; }
+        .dash-card-list li { margin-bottom: 4px; color: var(--texto-muted); }
+
+        h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: var(--cor-primary);
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1.5px solid var(--borda-input);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--texto-main);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus { outline: none; border-color: #c3080f; box-shadow: 0 0 0 3px rgba(195, 8, 15, 0.1); }
+
+        /* RADIO BUTTONS PROPORCIONAIS LADO A LADO */
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: #c3080f;
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn-group { display: flex; gap: 12px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .btn-primary { background: #c3080f; color: white; box-shadow: 0 5px 15px rgba(195, 8, 15, 0.3); }
+        .btn-success { background: #00c853; color: white; }
+        .btn-clear { background: var(--cor-secondary); color: white; }
+
+        [data-theme="dark"] .btn-clear { background: #AAAAAA; color: #2A2A2A; }
+
+        /* TABELAS */
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { color: var(--cor-primary); text-transform: uppercase; padding: 12px; border-bottom: 2px solid var(--borda-input); }
+        td { padding: 12px; border-bottom: 1px solid var(--borda-input); }
+
+        /* DASHBOARD */
+        .dashboard-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 15px; max-width: 500px; margin: 20px auto;
+        }
+        .dash-card {
+            padding: 15px; border: 1px solid var(--borda-suave);
+            border-radius: 10px; background: rgba(195, 8, 15, 0.05);
+        }
+        .dash-card h4 { font-size: 0.75rem; margin: 0; color: var(--cor-primary); text-transform: uppercase; }
+        .dash-card p { font-size: 1.2rem; font-weight: bold; margin: 5px 0 0 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-wrap">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" alt="Med Plus Logo">
+        <div class="header-text">
+            <div class="title">Controle de Estoque</div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-text">Tema</span>
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+</header>
+
+<div class="container">
+    
+    <div class="nav-menu">
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('consultar')">Consultar</button>
+        <button onclick="showPage('cadastrar')">Cadastrar</button>
+    </div>
+
+    <div id="page-home" class="page card">
+        <h2 style="font-size: 2rem;">DASHBOARD</h2>
+        <div class="dashboard-grid">
+            <div class="dash-card">
+                <h4>Itens em Estoque</h4>
+                <p id="dash-itens" style="font-size: 1.5rem; color: var(--cor-primary);">0</p>
+                <div id="dash-lista-recipiente" class="dash-card-list">
+                    <ul id="lista-detalhada-itens">
+                        <li>Carregando itens...</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dash-card"><h4>Patrimônio Total</h4><p id="dash-valor">R$ 0,00</p></div>
+        </div>
+        <button class="btn btn-primary" onclick="showPage('consultar')">Acessar Sistema</button>
+    </div>
+
+    <div id="page-consultar" class="page card" style="display:none;">
+        <h2>Consulta de Itens</h2>
+        <div class="radio-group">
+            <label><input type="radio" name="tipoBusca" value="produtos" checked onclick="limparBusca()"> Produtos</label>
+            <label><input type="radio" name="tipoBusca" value="categorias" onclick="limparBusca()"> Categorias</label>
+        </div>
+        <input type="text" id="searchQuery" placeholder="O que você procura?" onkeyup="executarBusca()">
+        <div id="results" class="table-container"></div>
+        <div class="btn-group">
+            <button class="btn btn-success" onclick="gerarPDF()">Gerar Relatório PDF</button>
+            <button class="btn btn-clear" onclick="limparBusca()">Limpar</button>
+        </div>
+    </div>
+
+    <div id="page-cadastrar" class="page card" style="display:none;">
+        <div class="btn-group" style="margin-bottom:30px;">
+            <button class="btn btn-clear" onclick="switchTab('prod')">Novo Produto</button>
+            <button class="btn btn-clear" onclick="switchTab('cat')">Nova Categoria</button>
+        </div>
+
+        <div id="form-prod">
+            <h3 id="titulo-prod">Dados do Produto</h3>
+            <form id="cadProdForm">
+                <input type="text" id="p_nome" placeholder="Nome do Equipamento/Peça" required>
+                <input type="text" id="p_modelo" placeholder="Modelo / Versão" required>
+                <input type="text" id="p_sn" placeholder="Número de Série (S/N)" required>
+                <input type="number" id="p_valor" placeholder="Valor Unitário (R$)" required>
+                <select id="p_categoria"><option value="">Carregando categorias...</option></select>
+                <div class="btn-group">
+                    <button type="button" id="btn-salvar-prod" class="btn btn-primary" onclick="salvarProduto()">Salvar Produto</button>
+                    <button type="button" class="btn btn-clear" onclick="limparFormularios()">Limpar</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="form-cat" style="display:none;">
+            <h3 id="titulo-cat">Nova Categoria</h3>
+            <form id="cadCatForm">
+                <input type="text" id="c_nome" placeholder="Nome da Categoria (Ex: Placas DR, Cabos)" required>
+                <div class="btn-group">
+                    <button type="button" id="btn-salvar-cat" class="btn btn-primary" onclick="salvarCategoria()">Cadastrar Categoria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxehYO0sdhhcWaWKjLr8aZbukIvOI116_zSAd0wRU2w8x09w-i5EjVxj49UoAfLRkmS/exec";
+    let editandoID = null;
+
+    // --- LÓGICA DE TEMA ---
+    const themeIcon = document.getElementById('theme-icon');
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            themeIcon.textContent = '🌙';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeIcon.textContent = '☀️';
+        }
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        document.getElementById('page-' + pageId).style.display = 'block';
+        if(pageId === 'home') atualizarDashboard();
+    }
+
+    // Agora o switchTab não precisa mais dar "fetch", ele é instantâneo
+    function switchTab(type) {
+        document.getElementById('form-prod').style.display = type === 'prod' ? 'block' : 'none';
+        document.getElementById('form-cat').style.display = type === 'cat' ? 'block' : 'none';
+        
+        // Se por algum motivo o cache estiver vazio, tenta carregar
+        if(type === 'prod' && categoriasCache.length === 0) {
+            carregarCategorias();
+        }
+    }
+
+    // Função de emergência caso precise recarregar as categorias (ex: após cadastrar nova)
+    async function carregarCategorias() {
+        const res = await fetch(`${SCRIPT_URL}?action=listCategorias`);
+        categoriasCache = await res.json();
+        renderizarCategorias(categoriasCache);
+    }
+
+    async function salvarProduto() {
+        const payload = {
+            action: editandoID ? "updateProduto" : "addProduto",
+            id: editandoID,
+            nome: document.getElementById('p_nome').value,
+            modelo: document.getElementById('p_modelo').value,
+            sn: document.getElementById('p_sn').value,
+            valor: document.getElementById('p_valor').value,
+            catId: document.getElementById('p_categoria').value
+        };
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        alert("Salvo com sucesso!");
+        limparFormularios();
+    }
+
+    // Atualize a função de salvar categoria para atualizar o cache após o sucesso
+    async function salvarCategoria() {
+        const payload = {
+            action: editandoID ? "updateCategoria" : "addCategoria",
+            id: editandoID,
+            nomeCat: document.getElementById('c_nome').value
+        };
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        alert("Categoria Salva!");
+        limparFormularios();
+        carregarCategorias(); // Recarrega a lista para o formulário de produtos ficar atualizado
+    }
+
+    async function executarBusca() {
+        const q = document.getElementById('searchQuery').value;
+        const radioSelected = document.querySelector('input[name="tipoBusca"]:checked');
+        if (!radioSelected) return;
+        
+        const tipo = radioSelected.value; // 'produtos' ou 'categorias'
+        const resDiv = document.getElementById('results');
+        
+        if (q.length < 1) {
+            resDiv.innerHTML = "";
+            return;
+        }
+
+        const action = tipo === 'produtos' ? 'buscar' : 'buscarCategoria';
+        
+        try {
+            const res = await fetch(`${SCRIPT_URL}?action=${action}&q=${encodeURIComponent(q)}`);
+            const data = await res.json();
+
+            // Monta o cabeçalho da tabela dependendo do tipo
+            let html = `<table><tr><th>ID</th><th>Nome</th>`;
+            if (tipo === 'produtos') html += `<th>Modelo</th><th>S/N</th><th>Valor</th>`;
+            html += `<th style="text-align:center">Ações</th></tr>`;
+
+            if (data.length === 0) {
+                resDiv.innerHTML = "<p style='padding:20px;'>Nenhum resultado encontrado.</p>";
+                return;
+            }
+
+            data.forEach(row => {
+                // Limpeza de dados para evitar erro no clique do botão
+                const id = row[0];
+                const nome = (row[1] || "").toString().replace(/'/g, "\\'");
+                const modelo = (row[2] || "").toString().replace(/'/g, "\\'");
+                const sn = (row[3] || "").toString().replace(/'/g, "\\'");
+                const valor = (row[4] || "").toString();
+
+                html += `<tr><td>${id}</td><td>${row[1]}</td>`;
+                
+                if (tipo === 'produtos') {
+                    html += `<td>${row[2]}</td><td>${row[3]}</td><td>R$ ${row[4]}</td>`;
+                }
+
+                html += `<td style="text-align:center">
+                    <button onclick="prepararEdicao(${id}, '${tipo}', '${nome}', '${modelo}', '${sn}', '${valor}')" style="background:none;border:none;cursor:pointer;font-size:16px;">✏️</button>
+                    <button onclick="excluirRegistro(${id}, '${nome}', '${tipo}')" style="background:none;border:none;cursor:pointer;font-size:16px;">🗑️</button>
+                </td></tr>`;
+            });
+            resDiv.innerHTML = html + `</table>`;
+        } catch (e) {
+            resDiv.innerHTML = "Erro ao buscar dados.";
+            console.error(e);
+        }
+    }
+
+    function prepararEdicao(id, tipo, nome, modelo, sn, valor) {
+        editandoID = id;
+        showPage('cadastrar');
+        
+        // CORREÇÃO: Mapeia o tipo para a aba correta
+        const aba = (tipo === 'produtos') ? 'prod' : 'cat';
+        switchTab(aba);
+
+        if (tipo === 'produtos') {
+            document.getElementById('p_nome').value = nome;
+            document.getElementById('p_modelo').value = modelo;
+            document.getElementById('p_sn').value = sn;
+            document.getElementById('p_valor').value = valor;
+            document.getElementById('titulo-prod').innerText = "Editando Produto ID: " + id;
+            document.getElementById('btn-salvar-prod').innerText = "Atualizar";
+        } else {
+            document.getElementById('c_nome').value = nome;
+            document.getElementById('titulo-cat').innerText = "Editando Categoria ID: " + id;
+            document.getElementById('btn-salvar-cat').innerText = "Atualizar";
+        }
+    }
+
+    async function excluirRegistro(id, nome, tipo) {
+        if(!confirm(`Excluir ${nome}?`)) return;
+        const action = tipo === 'produtos' ? 'deleteProduto' : 'deleteCategoria';
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action, id}) });
+        executarBusca();
+    }
+
+    function limparFormularios() {
+        editandoID = null;
+        document.getElementById('cadProdForm').reset();
+        document.getElementById('cadCatForm').reset();
+        document.getElementById('titulo-prod').innerText = "Cadastrar Produto";
+        document.getElementById('titulo-cat').innerText = "Cadastrar Categoria";
+        document.querySelectorAll('.btn-primary').forEach(b => b.innerText = "Salvar");
+    }
+
+    // Variável global para não precisar baixar as categorias toda hora
+    let categoriasCache = [];
+
+    async function atualizarDashboard() {
+        try {
+            const res = await fetch(`${SCRIPT_URL}?action=dashboard`);
+            const d = await res.json();
+            
+            document.getElementById('dash-itens').innerText = d.totalItens;
+            document.getElementById('dash-valor').innerText = d.valorTotal;
+            
+            // Preenche a lista detalhada de itens
+            const listaUl = document.getElementById('lista-detalhada-itens');
+            if (d.listaItens && d.listaItens.length > 0) {
+                listaUl.innerHTML = d.listaItens.map(item => 
+                    `<li><strong>${item.nome}</strong> ${item.modelo ? '- ' + item.modelo : ''}</li>`
+                ).join('');
+            } else {
+                listaUl.innerHTML = '<li>Nenhum item em estoque.</li>';
+            }
+            
+            categoriasCache = d.categorias;
+            renderizarCategorias(d.categorias);
+            
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+        }
+    }
+
+    function renderizarCategorias(categorias) {
+        const sel = document.getElementById('p_categoria');
+        if (!sel) return;
+        
+        sel.innerHTML = '<option value="">Selecione a Categoria</option>';
+        categorias.forEach(c => {
+            sel.innerHTML += `<option value="${c[0]}">${c[1]}</option>`;
+        });
+    }
+
+    function limparBusca() {
+        document.getElementById('searchQuery').value = "";
+        document.getElementById('results').innerHTML = "";
+    }
+
+    function gerarPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Relatório de Estoque MED PLUS", 14, 15);
+        doc.autoTable({ html: '#results table', startY: 20 });
+        doc.save("estoque-medplus.pdf");
+    }
+
+    window.onload = atualizarDashboard;
+</script>
+</body>
+</html>
