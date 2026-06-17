@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OS On-line | Med Plus</title>
+
+    <link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEhOTG15yPLfQ0IHI5vSAC0MKMDHWgJDZynAPSvwVDIkVLiPX5A6Qf4blmZTxVxcXGB-_Op0nqPHkHJPIdyVdYKm_nOaL35Dw1pgHQ5yR6E33iFMhCrz5t2d7Ab4Rps1ky_5eduohZstcSCGSh_4Jk2TukKd1l24tkRtgeRWw-_DzZZ8UnRLHtiYF5x0bzR6" type="image/x-icon">
+
+    <style>
+        /* VARIÁVEIS DO TEMA CLARO (PADRÃO) */
+        :root {
+            --primary: #c3080f;
+            --header-title: var(--primary);
+            --primary-hover: #a1060b;
+            --header-bg: #FFFFFF;
+            --bg-body: #f5f5f5;
+            --card-bg: #ffffff;
+            --border-form: #E53935; /* Cor solicitada */
+            --text-main: #1e293b;
+            --text-muted: #333333;
+            --input-bg: #ffffff;
+            --secondary-bg: #f1f5f9;
+            --logo-filter: none;
+            --radius: 12px;
+            --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* VARIÁVEIS DO TEMA ESCURO */
+        [data-theme="dark"] {
+            --header-bg: #222d32;
+            --primary: #AAAAAA; 
+            --bg-body: #222d32;
+            --card-bg: #2c3b41;
+            --text-main: #AAAAAA;
+            --text-muted: #AAAAAA;
+            --input-bg: #2A2A2A;
+            --border-form: #E53935; /* Mantida conforme solicitação */
+            --secondary-bg: #37474f;
+            --logo-filter: brightness(0) saturate(100%) invert(75%) sepia(0%) saturate(0%) hue-rotate(175deg) brightness(91%) contrast(89%);
+            --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Define a cor da borda inferior do cabeçalho no tema escuro */
+        [data-theme="dark"] header {
+            border-bottom-color: #c3080f;
+        }
+
+        /* Altera a cor do texto do botão apenas no tema escuro */
+        [data-theme="dark"] .btn-secondary {
+            color: #2A2A2A !important;
+        }
+
+        [data-theme="dark"] .btn {
+            color: #2A2A2A !important;
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg-body); 
+            margin: 0; 
+            color: var(--text-main);
+            line-height: 1.5;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--header-bg);
+            border-bottom: 3px solid var(--primary);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: background 0.3s ease;
+        }
+
+        header img { 
+            width: 180px; 
+            filter: var(--logo-filter);
+            transition: filter 0.4s ease;
+        }
+        header h2 { margin: 5px 0 0; font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: background-color 0.2s ease;
+        }
+        .theme-toggle:hover { background-color: rgba(128, 128, 128, 0.1); }
+        .theme-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+        }
+        #theme-icon { font-size: 1.3rem; }
+
+        main { margin: 20px auto 100px; max-width: 800px; padding: 0 15px; }
+
+        /* APLICAÇÃO DA BORDA NOS FORMULÁRIOS */
+        .form-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-form); /* Borda de 1px na cor #E53935 */
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* Linha exclusiva para CHAMADO, SITUAÇÃO e TIPO DO ATENDIMENTO */
+        .status-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .grid { grid-template-columns: 1fr; }
+            .status-grid { grid-template-columns: 1fr; }
+            .theme-toggle { top: 15px; transform: none; }
+        }
+
+        label { font-weight: 700; font-size: 0.8rem; margin-bottom: 5px; display: block; color: var(--text-main); text-transform: uppercase; }
+
+        input, textarea, select {
+            width: 100%; padding: 12px; border: 1.5px solid #cccccc; border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            font-size: 1rem; box-sizing: border-box; transition: 0.2s;
+        }
+
+        [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
+            border-color: #444444;
+        }
+
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(195, 8, 15, 0.1); }
+
+        .equipamento-item {
+            display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px;
+            background: var(--secondary-bg); padding: 10px; border-radius: 8px; margin-bottom: 10px; align-items: end;
+        }
+
+        .remove-btn { background: var(--card-bg); border: 1px solid #fca5a5; color: #ef4444; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+
+        #signature-pad { width: 100%; height: 200px; border: 2px dashed #cccccc; border-radius: var(--radius); background: #fff; touch-action: none; }
+        [data-theme="dark"] #signature-pad { border-color: #444444; }
+
+        .btn {
+            background: var(--primary); color: #fff; border: none; border-radius: var(--radius); 
+            padding: 16px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1rem;
+        }
+
+        .btn-secondary { background: var(--text-muted); color: #fff; border: none; border-radius: 8px; padding: 8px 15px; cursor: pointer; margin-top: 10px; }
+
+
+
+        /* ===== UPLOAD E PRÉ-VISUALIZAÇÃO DAS FOTOS DA OS ===== */
+        .foto-upload-box {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px dashed var(--border-form);
+            border-radius: var(--radius);
+            background: var(--secondary-bg);
+        }
+
+        .foto-upload-info {
+            margin: 0 0 10px;
+            color: var(--text-muted);
+            font-size: 0.86rem;
+        }
+
+        .foto-input {
+            cursor: pointer;
+            background: var(--card-bg);
+        }
+
+        .foto-status {
+            display: block;
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .foto-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .foto-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid rgba(195, 8, 15, 0.22);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .foto-card img {
+            width: 100%;
+            height: 120px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .foto-card-info {
+            padding: 8px;
+            font-size: 0.76rem;
+            color: var(--text-main);
+            word-break: break-word;
+        }
+
+        .remove-foto-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            border: none;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #printSection { display: none; }
+
+        /* ===== BLOCOS DO RELATÓRIO GERADO E DA IMPRESSÃO ===== */
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+
+
+        .print-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+        }
+
+        .print-brand-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .print-brand img {
+            width: 150px;
+            max-width: 150px;
+        }
+
+        .print-brand-title h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .print-brand-title p {
+            margin: 3px 0 0;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .os-badge {
+            display: inline-block;
+            margin: 0 0 6px !important;
+            padding: 6px 10px;
+            border: 1px solid var(--border-form);
+            border-radius: 999px;
+            background: var(--secondary-bg);
+            color: var(--primary);
+        }
+
+        .fotos-relatorio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .foto-relatorio-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(195, 8, 15, 0.22);
+            border-radius: 8px;
+            padding: 8px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .foto-relatorio-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: contain;
+            display: block;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+        }
+
+        .foto-legenda {
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .print-header-info { text-align: right; }
+        .print-header-info p { margin: 0 0 6px; }
+
+        .relatorio-bloco,
+        .assinatura-bloco {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-form);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .relatorio-titulo {
+            margin: 0 0 12px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid rgba(195, 8, 15, 0.35);
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .relatorio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .relatorio-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .relatorio-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(195, 8, 15, 0.22);
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 48px;
+            box-sizing: border-box;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .relatorio-item.full { grid-column: 1 / -1; }
+
+        .relatorio-label {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--primary);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .relatorio-valor {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .equipamento-print {
+            background: var(--card-bg);
+            border: 1px solid rgba(195, 8, 15, 0.22);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        #assinaturaImg {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            background: white;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 600px) {
+            .relatorio-grid,
+            .relatorio-grid-3,
+            .fotos-relatorio-grid { grid-template-columns: 1fr; }
+            .print-header { flex-direction: column; }
+            .print-brand { width: 100%; }
+            .print-brand-title { text-align: center; }
+            .print-header-info { text-align: left; }
+        }
+
+        /* ===== IMPRESSÃO COM ESCALA DE 90% E BLOCOS PRESERVADOS ===== */
+        @media print {
+            @page { size: A4; margin: 8mm; }
+
+            /* FORÇA A IMPRESSÃO SEMPRE NO TEMA CLARO, MESMO SE A TELA ESTIVER NO DARK */
+            :root,
+            html,
+            html[data-theme="dark"],
+            [data-theme="dark"] {
+                --primary: #c3080f !important;
+                --header-title: #c3080f !important;
+                --primary-hover: #a1060b !important;
+                --header-bg: #ffffff !important;
+                --bg-body: #ffffff !important;
+                --card-bg: #ffffff !important;
+                --border-form: #E53935 !important;
+                --text-main: #000000 !important;
+                --text-muted: #333333 !important;
+                --input-bg: #ffffff !important;
+                --secondary-bg: #f8f8f8 !important;
+                --logo-filter: none !important;
+                --shadow: none !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            header, .btn, .btn-secondary, footer, .no-print, .theme-toggle { display: none !important; }
+            #atendimentoForm { display: none !important; }
+            #printSection { display: block !important; }
+
+            html,
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11px !important;
+                line-height: 1.28 !important;
+            }
+
+            main {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            #printSection,
+            #printSection > .form-card {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            #printSection > .form-card {
+                border: 1px solid #E53935 !important;
+                box-shadow: none !important;
+                padding: 14px !important;
+                margin-bottom: 0 !important;
+            }
+
+            .print-header,
+            .print-brand,
+            .foto-relatorio-card,
+            .relatorio-bloco,
+            .assinatura-bloco,
+            .relatorio-item,
+            .equipamento-print {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .print-header {
+                border-bottom: 2px solid #c3080f !important;
+            }
+
+            .print-header img,
+            #printSection img {
+                filter: none !important;
+            }
+
+            .relatorio-bloco,
+            .assinatura-bloco {
+                background: #f8f8f8 !important;
+                border: 1px solid #E53935 !important;
+                box-shadow: none !important;
+                color: #000000 !important;
+            }
+
+            .relatorio-item,
+            .equipamento-print {
+                background: #ffffff !important;
+                border: 1px solid #cccccc !important;
+                color: #000000 !important;
+            }
+
+            #printSection p,
+            #printSection strong,
+            #printSection span,
+            .relatorio-valor {
+                color: #000000 !important;
+            }
+
+            .relatorio-titulo,
+            .relatorio-label,
+            #printSection label {
+                color: #c3080f !important;
+            }
+
+
+
+            .print-header {
+                align-items: center !important;
+                gap: 10px !important;
+                padding-bottom: 8px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .print-brand {
+                gap: 10px !important;
+                flex: 1 !important;
+            }
+
+            .print-brand-title {
+                flex: 1 !important;
+                text-align: center !important;
+            }
+
+            .print-brand img {
+                width: 120px !important;
+                max-width: 120px !important;
+            }
+
+            .print-brand-title h1 {
+                font-size: 16px !important;
+                color: #c3080f !important;
+            }
+
+            .print-brand-title p,
+            .print-header-info p {
+                font-size: 10px !important;
+                color: #333333 !important;
+            }
+
+            .os-badge {
+                padding: 4px 8px !important;
+                color: #c3080f !important;
+                background: #f8f8f8 !important;
+            }
+
+            .relatorio-bloco,
+            .assinatura-bloco {
+                padding: 9px !important;
+                margin-bottom: 8px !important;
+                border-radius: 8px !important;
+            }
+
+            .relatorio-titulo {
+                margin-bottom: 7px !important;
+                padding-bottom: 4px !important;
+                font-size: 10px !important;
+                letter-spacing: 0.5px !important;
+            }
+
+            .relatorio-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            .relatorio-grid-3 {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            .relatorio-item,
+            .equipamento-print {
+                padding: 6px !important;
+                min-height: auto !important;
+                border-radius: 6px !important;
+            }
+
+            .relatorio-label {
+                font-size: 8.5px !important;
+                margin-bottom: 2px !important;
+            }
+
+            .relatorio-valor {
+                font-size: 10px !important;
+            }
+
+            .fotos-relatorio-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px !important;
+            }
+
+            .foto-relatorio-card {
+                background: #ffffff !important;
+                border: 1px solid #cccccc !important;
+                padding: 5px !important;
+                border-radius: 6px !important;
+            }
+
+            .foto-relatorio-card img {
+                height: 125px !important;
+                object-fit: contain !important;
+                border: 1px solid #dddddd !important;
+                border-radius: 5px !important;
+            }
+
+            .foto-legenda {
+                font-size: 8.5px !important;
+                color: #333333 !important;
+                margin-top: 4px !important;
+            }
+
+            #assinaturaImg {
+                max-height: 120px;
+                background: #ffffff !important;
+                border: 1px solid #cccccc !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar Tema">
+        <span class="theme-text">Tema</span>
+        <span id="theme-icon">🌙</span>
+    </button>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png">
+    <h2>Ordem de Serviço On-Line</h2>
+</header>
+
+<main>
+    <form id="atendimentoForm">
+        <div class="form-card">
+            <div class="grid">
+                <div style="grid-column: 1 / -1;"><label>Técnico</label><input id="tecnico" autofocus></div>
+                <div style="grid-column: 1 / -1;"><label>Cliente</label><input id="cliente"></div>
+                <div><label>Contato</label><input id="contato"></div>
+                <div><label>WhatsApp</label><input id="telefone" placeholder="(00) 00000-0000"></div>
+                <div><label>CNPJ</label><input id="cnpj" placeholder="00.000.000/0000-00"></div>
+                <div><label>Data</label><input type="date" id="data"></div>
+                <div style="grid-column: 1 / -1;"><label>Endereço</label><input id="endereco"></div>
+                <div><label>Chegada</label><input type="time" id="hora_chegada"></div>
+                <div><label>Saída</label><input type="time" id="hora_saida"></div>
+                <div class="status-grid">
+                    <div>
+                        <label>Chamado</label>
+                        <select id="chamado"><option>Selecione...</option><option>Em andamento</option><option>Finalizado</option></select>
+                    </div>
+                    <div>
+                        <label>Situação</label>
+                        <select id="situacao"><option>Selecione...</option><option>Aluguel</option><option>Avulso</option><option>Contrato</option><option>Garantia</option></select>
+                    </div>
+                    <div>
+                        <label>Tipo do Atendimento</label>
+                        <select id="tipo_atendimento">
+                            <option>Selecione...</option>
+                            <option>Atendimento Chat</option>
+                            <option>Remoto</option>
+                            <option>Telefônico</option>
+                            <option>Visita Técnica</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <label>Equipamentos</label>
+            <div id="equipamentosContainer"></div>
+            <button type="button" class="btn-secondary" onclick="adicionarEquipamento()">+ Adicionar Equipamento</button>
+        </div>
+
+        <div class="form-card">
+            <label>Descrição da Falha</label><textarea id="falha" rows="3"></textarea>
+            <label style="margin-top:10px">Ação Tomada</label><textarea id="acao" rows="3"></textarea>
+
+            <div class="foto-upload-box">
+                <label>Fotos da Ordem de Serviço</label>
+                <p class="foto-upload-info">Selecione uma ou mais fotos. Elas ficam salvas apenas nesta OS gerada, aparecem na visualização e saem na impressão/PDF.</p>
+                <input type="file" id="fotos_os" class="foto-input" accept="image/*" multiple>
+                <span id="fotoStatus" class="foto-status">Nenhuma foto adicionada.</span>
+                <div id="fotosPreview" class="foto-preview-grid"></div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <label>Assinatura do Cliente</label>
+            <canvas id="signature-pad"></canvas>
+            <button type="button" class="btn-secondary" onclick="limparAssinatura()">Limpar</button>
+        </div>
+
+        <button type="button" class="btn" onclick="gerarAtendimento()">GERAR RELATÓRIO</button>
+    </form>
+
+    <section id="printSection">
+        <div class="form-card">
+            <div class="print-header">
+                <div class="print-brand">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" style="filter: var(--logo-filter)" alt="MedPlus+">
+                    <div class="print-brand-title">
+                        <h1>Ordem de Serviço</h1>
+                        <p>Registro técnico de atendimento</p>
+                    </div>
+                </div>
+                <div class="print-header-info">
+                    <p class="os-badge"><strong>OS Nº: <span id="osNumero"></span></strong></p>
+                    <p>MedPlus+: (11) 98872-0944</p>
+                    <p>Gerado em: <span id="geradoEm"></span></p>
+                </div>
+            </div>
+            <div id="dadosGerados"></div>
+            <div class="assinatura-bloco">
+                <h3 class="relatorio-titulo">Visto do Cliente</h3>
+                <img id="assinaturaImg">
+            </div>
+            <div style="margin-top:20px; display:flex; gap:10px" class="no-print">
+                <button class="btn" onclick="window.print()">IMPRIMIR</button>
+                <button class="btn" style="background:var(--text-muted)" onclick="location.reload()">NOVO</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    const themeIcon = document.getElementById('theme-icon');
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            themeIcon.textContent = '🌙';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeIcon.textContent = '☀️';
+        }
+    }
+
+    const form = document.getElementById('atendimentoForm');
+    const inputTecnico = document.getElementById('tecnico');
+    const inputTelefone = document.getElementById('telefone');
+    const inputCnpj = document.getElementById('cnpj');
+    const canvas = document.getElementById("signature-pad");
+    const ctx = canvas.getContext("2d");
+    const containerEquip = document.getElementById("equipamentosContainer");
+    const inputFotos = document.getElementById("fotos_os");
+    const fotosPreview = document.getElementById("fotosPreview");
+    const fotoStatus = document.getElementById("fotoStatus");
+    let fotosOS = [];
+    let fotosEmProcessamento = 0;
+    
+    window.onload = () => { inputTecnico.focus(); };
+
+    inputTelefone.addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "");
+        v = v.length > 11 ? v.slice(0, 11) : v;
+        e.target.value = v.replace(/^(\d{2})(\d)/, "($1) $2").replace(v.length <= 10 ? /(\d{4})(\d)/ : /(\d{5})(\d)/, "$1-$2");
+    });
+
+    inputCnpj.addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "").slice(0, 14);
+        e.target.value = v.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
+    });
+
+
+    inputFotos.addEventListener("change", carregarFotos);
+
+    function carregarFotos(event) {
+        const arquivos = Array.from(event.target.files || []);
+        if (!arquivos.length) return;
+
+        arquivos.forEach(arquivo => {
+            if (!arquivo.type.startsWith("image/")) return;
+
+            fotosEmProcessamento++;
+            atualizarStatusFotos();
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                redimensionarImagem(e.target.result, 1400, 0.82).then(src => {
+                    fotosOS.push({ nome: arquivo.name, src });
+                    fotosEmProcessamento--;
+                    renderizarPreviewFotos();
+                    atualizarStatusFotos();
+                });
+            };
+            reader.onerror = () => {
+                fotosEmProcessamento--;
+                atualizarStatusFotos();
+            };
+            reader.readAsDataURL(arquivo);
+        });
+
+        event.target.value = "";
+    }
+
+    function redimensionarImagem(dataUrl, limite = 1400, qualidade = 0.82) {
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                const maiorLado = Math.max(img.width, img.height);
+                const escala = maiorLado > limite ? limite / maiorLado : 1;
+                const largura = Math.round(img.width * escala);
+                const altura = Math.round(img.height * escala);
+
+                const tempCanvas = document.createElement("canvas");
+                tempCanvas.width = largura;
+                tempCanvas.height = altura;
+                const tempCtx = tempCanvas.getContext("2d");
+                tempCtx.fillStyle = "#ffffff";
+                tempCtx.fillRect(0, 0, largura, altura);
+                tempCtx.drawImage(img, 0, 0, largura, altura);
+
+                resolve(tempCanvas.toDataURL("image/jpeg", qualidade));
+            };
+            img.onerror = () => resolve(dataUrl);
+            img.src = dataUrl;
+        });
+    }
+
+    function renderizarPreviewFotos() {
+        fotosPreview.innerHTML = "";
+        fotosOS.forEach((foto, index) => {
+            const card = document.createElement("div");
+            card.className = "foto-card";
+            card.innerHTML = `
+                <button type="button" class="remove-foto-btn" onclick="removerFoto(${index})">×</button>
+                <img src="${foto.src}" alt="Foto ${index + 1} da OS">
+                <div class="foto-card-info">Foto ${index + 1}${foto.nome ? " - " + foto.nome : ""}</div>
+            `;
+            fotosPreview.appendChild(card);
+        });
+        atualizarStatusFotos();
+    }
+
+    function removerFoto(index) {
+        fotosOS.splice(index, 1);
+        renderizarPreviewFotos();
+    }
+
+    function atualizarStatusFotos() {
+        const total = fotosOS.length;
+        const processando = fotosEmProcessamento > 0 ? ` Processando ${fotosEmProcessamento} foto(s)...` : "";
+        fotoStatus.textContent = total === 0
+            ? `Nenhuma foto adicionada.${processando}`
+            : `${total} foto(s) adicionada(s).${processando}`;
+    }
+
+    function gerarFotosRelatorio() {
+        if (!fotosOS.length) {
+            return `<div class="equipamento-print"><span class="relatorio-valor">Nenhuma foto anexada à Ordem de Serviço.</span></div>`;
+        }
+
+        return `
+            <div class="fotos-relatorio-grid">
+                ${fotosOS.map((foto, index) => `
+                    <div class="foto-relatorio-card">
+                        <img src="${foto.src}" alt="Foto ${index + 1} da OS">
+                        <div class="foto-legenda">Foto ${index + 1}${foto.nome ? " - " + foto.nome : ""}</div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+    }
+
+    let desenhando = false;
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    canvas.addEventListener("pointerdown", e => { desenhando = true; ctx.beginPath(); const r = canvas.getBoundingClientRect(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top); });
+    canvas.addEventListener("pointermove", e => { if (!desenhando) return; const r = canvas.getBoundingClientRect(); ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); });
+    canvas.addEventListener("pointerup", () => desenhando = false);
+
+    function limparAssinatura() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    function adicionarEquipamento(){
+        const div = document.createElement("div");
+        div.className = "equipamento-item";
+        div.innerHTML = `<input placeholder="Modelo"><input placeholder="Serial"><input placeholder="Marca"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;
+        containerEquip.appendChild(div);
+    }
+    adicionarEquipamento();
+
+    function gerarAtendimento(){
+        // Gera o número da OS e captura os valores dos campos
+        const os = Math.floor(100000 + Math.random()*900000);
+        const tecnico = inputTecnico.value;
+        const cliente = document.getElementById("cliente").value;
+        const situacao = document.getElementById("situacao").value;
+        const dataBruta = document.getElementById("data").value;
+        const dataFormatada = formatarData(dataBruta, ".");
+
+        // Define o título da aba, usado pelo navegador como nome sugerido ao salvar/imprimir em PDF
+        // Formato: OS Nº_osNumero - cliente - situacao - tecnico - dataFormatada
+        document.title = `OS Nº_${os} - ${cliente} - ${situacao} - ${tecnico} - ${dataFormatada}`;
+
+        // Atualiza o número da OS no layout de impressão
+        document.getElementById("osNumero").innerText = os;
+        document.getElementById("geradoEm").innerText = new Date().toLocaleString("pt-BR");
+
+        // Lógica para listar os equipamentos adicionados em blocos
+        let equipTxt = "";
+        document.querySelectorAll(".equipamento-item").forEach((el, i) => {
+            const inps = el.querySelectorAll("input");
+            const modelo = valor(inps[0]);
+            const serial = valor(inps[1]);
+            const marca = valor(inps[2]);
+
+            if(modelo || serial || marca) {
+                equipTxt += `
+                    <div class="equipamento-print">
+                        <span class="relatorio-label">Equipamento ${i+1}</span>
+                        <span class="relatorio-valor"><strong>Modelo:</strong> ${modelo || "-"} &nbsp; | &nbsp; <strong>Serial:</strong> ${serial || "-"} &nbsp; | &nbsp; <strong>Marca:</strong> ${marca || "-"}</span>
+                    </div>
+                `;
+            }
+        });
+
+        if (!equipTxt) {
+            equipTxt = `<div class="equipamento-print"><span class="relatorio-valor">Nenhum equipamento informado.</span></div>`;
+        }
+
+        // Preenche a seção de impressão/relatório com blocos organizados
+        document.getElementById("dadosGerados").innerHTML = `
+            <div class="relatorio-bloco">
+                <h3 class="relatorio-titulo">Dados do Atendimento</h3>
+                <div class="relatorio-grid">
+                    ${itemRelatorio("Técnico", tecnico)}
+                    ${itemRelatorio("Cliente", cliente)}
+                    ${itemRelatorio("Contato", document.getElementById("contato").value)}
+                    ${itemRelatorio("WhatsApp", inputTelefone.value)}
+                    ${itemRelatorio("CNPJ", inputCnpj.value)}
+                    ${itemRelatorio("Data", formatarData(dataBruta, "/"))}
+                    ${itemRelatorio("Endereço", document.getElementById("endereco").value, "full")}
+                    ${itemRelatorio("Horário", `${document.getElementById("hora_chegada").value || "--:--"} às ${document.getElementById("hora_saida").value || "--:--"}`, "full")}
+                </div>
+            </div>
+
+            <div class="relatorio-bloco">
+                <h3 class="relatorio-titulo">Status do Chamado</h3>
+                <div class="relatorio-grid-3">
+                    ${itemRelatorio("Chamado", document.getElementById("chamado").value)}
+                    ${itemRelatorio("Situação", document.getElementById("situacao").value)}
+                    ${itemRelatorio("Tipo do Atendimento", document.getElementById("tipo_atendimento").value)}
+                </div>
+            </div>
+
+            <div class="relatorio-bloco">
+                <h3 class="relatorio-titulo">Equipamentos</h3>
+                ${equipTxt}
+            </div>
+
+            <div class="relatorio-bloco">
+                <h3 class="relatorio-titulo">Descrição Técnica</h3>
+                <div class="relatorio-grid">
+                    ${itemRelatorio("Falha", document.getElementById("falha").value, "full")}
+                    ${itemRelatorio("Ação Tomada", document.getElementById("acao").value, "full")}
+                </div>
+            </div>
+
+            <div class="relatorio-bloco">
+                <h3 class="relatorio-titulo">Fotos da Ordem de Serviço</h3>
+                ${gerarFotosRelatorio()}
+            </div>
+        `;
+
+        // Converte a assinatura do canvas para imagem e alterna a visualização
+        document.getElementById("assinaturaImg").src = canvas.toDataURL();
+        form.style.display = "none";
+        document.getElementById("printSection").style.display = "block";
+        window.scrollTo(0,0);
+    }
+
+    function valor(elemento) {
+        return elemento ? elemento.value.trim() : "";
+    }
+
+    function formatarData(data, separador) {
+        if (!data) return "";
+        return data.split('-').reverse().join(separador);
+    }
+
+    function itemRelatorio(label, valorCampo, classeExtra = "") {
+        return `
+            <div class="relatorio-item ${classeExtra}">
+                <span class="relatorio-label">${label}</span>
+                <span class="relatorio-valor">${valorCampo || "-"}</span>
+            </div>
+        `;
+    }
+
+</script>
+
+</body>
+</html>
