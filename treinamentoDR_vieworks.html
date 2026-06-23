@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Instalação – DR Vieworks</title>
+
+<link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEj_YGBHTEY0lepQ4EHv0oHu0rzwqUutA1inzJ_dpOqHWzTFl9lAt-bg9dd0azB7mVBMCHulsfd0u3WdE06xoJPsDkNuG5t-kAFD5XM6NJzw6N22uALkPk505Fbbrux01QcDbx2Y41O-ihVkiuooC-w5v7rWthEc0tZS0mmCntPmfhoCnxRALxAEvyYQokqG">
+
+<style>
+/* VARIÁVEIS DO TEMA */
+:root {
+  --cor-primary: #c3080f;
+  --cor-secondary: #363636;
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --texto-main: #1e293b;
+  --texto-muted: #333333;
+  --borda-suave: #E53935;
+  --borda-input: #cccccc;
+  --radius: 12px;
+  --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.3);
+  --logo-filter: none;
+  --input-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg-body: #222d32;
+  --bg-card: #2c3b41;
+  --cor-primary: #AAAAAA; 
+  --texto-main: #AAAAAA;
+  --texto-muted: #AAAAAA;
+  --input-bg: #2A2A2A;
+  --borda-suave: #E53935;
+  --borda-input: #444444;
+  --logo-filter: brightness(0) saturate(100%) invert(75%) sepia(0%) saturate(0%) hue-rotate(175deg) brightness(91%) contrast(89%);
+  --shadow: 0 4px 6px 5px rgba(0, 0, 0, 0.6);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--texto-main);
+  background: var(--bg-body);
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ===== CABEÇALHO ===== */
+header {
+  background: var(--bg-card);
+  border-bottom: 3px solid #c3080f;
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  position: relative;
+}
+
+header img {
+  height: 55px;
+  object-fit: contain;
+  filter: var(--logo-filter);
+}
+
+.header-text .title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-primary);
+  line-height: 1.2;
+}
+
+.header-text .subtitle {
+  font-size: 0.85rem;
+  color: var(--texto-muted);
+  font-weight: 500;
+}
+
+/* BOTÃO TEMA */
+.theme-toggle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.theme-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--texto-muted);
+}
+
+/* ===== CONTEÚDO ===== */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px 120px;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--borda-suave);
+}
+
+.card h2 {
+  margin: 0 0 15px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borda-input);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
+  background: rgba(0,0,0,0.03);
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 3px solid var(--cor-primary);
+}
+
+[data-theme="dark"] .info-item { background: rgba(255,255,255,0.05); }
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cor-primary);
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* ===== CHECKLIST ===== */
+ul.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--borda-input);
+}
+
+ul.checklist li:last-child { border-bottom: none; }
+
+.status-ok { color: #2e7d32; font-weight: bold; }
+
+/* ===== LINKS DE VÍDEO ===== */
+.video-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--texto-main);
+  padding: 12px;
+  border: 1.5px solid var(--borda-input);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+
+.video-link:hover {
+  border-color: var(--cor-primary);
+  background: rgba(195, 8, 15, 0.05);
+}
+
+.video-icon { font-size: 1.2rem; }
+
+/* ===== IMPRESSÃO ===== */
+@media print {
+  body { zoom: 75%; background: #fff !important; }
+  .theme-toggle, .floating-actions { display: none !important; }
+  .card { break-inside: avoid; border: 1px solid #000 !important; }
+}
+
+@media (max-width: 600px) {
+  .header-wrap { flex-direction: column; }
+  .theme-toggle { position: relative; margin-top: 10px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgywsdWKH6rlDURrDoENalBtkXnhxike5bP4lesilVl-vBhsPrYmIIDLESb8VpR1e6AcRyxgXcyW8snNH4tSyIaJmTizACfOeqQYUjoaXhPE0MmMlHigietjYjKFLpEx5lccR3l10Q5RBwQMNBG8ENz6rAsMubobIyLRZa5DOLpWFtkMEH0Bx8_2LPVZFmb/s16000/logotipo-med-plus2025-1.png" alt="Med Plus Logo">
+    <div class="header-text">
+      <div class="title">Treinamento DR Vieworks</div>
+      <div class="subtitle">Manual de Configuração e Instalação</div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-text">Tema</span>
+        <span id="theme-icon">🌙</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>✅ Checklist de Configuração</h2>
+    <ul class="checklist">
+      <li><span class="status-ok">✔</span> Configuração</li>
+      <li><span class="status-ok">✔</span> Queda</li>
+      <li><span class="status-ok">✔</span> IP</li>
+      <li><span class="status-ok">✔</span> Calibração</li>
+      <li><span class="status-ok">✔</span> Backup</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>💻 Especificações do Sistema</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">Versões Suportadas</span>
+        <div class="value">1.0.10 / 1.0.11.012</div>
+      </div>
+      <div class="info-item">
+        <span class="label">Sistema Operacional</span>
+        <div class="value">Windows 10/11 Pro</div>
+      </div>
+      <div class="info-item">
+        <span class="label">Segurança</span>
+        <div class="value" style="color: #c3080f;">Desativar Firewall / Antivírus</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⚙️ Módulo e DLL</h2>
+    <p style="font-size: 0.9rem; margin-bottom: 15px;">Em caso de problemas com DLL, utilize o link abaixo para correção:</p>
+    <a href="https://drive.google.com/file/d/1HQt5dKtnyWodqqawmmWDq5cODX4cO4Ky/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link" style="border-style: dashed;">
+      <span class="video-icon">🔗</span>
+      <span class="value">Link do arquivo de correção</span>
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>🔑 Rede e Credenciais</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">IP Roteador</span>
+        <div class="value">169.254.2.200</div>
+      </div>
+      <div class="info-item">
+        <span class="label">Rede (Wi-Fi)</span>
+        <div class="value">Vivix_AP</div>
+      </div>
+      <div class="info-item">
+        <span class="label">Senha da Rede</span>
+        <div class="value">1234567890I</div>
+      </div>
+      <div class="info-item">
+        <span class="label">IP da Placa</span>
+        <div class="value">169.254.1.101</div>
+        <span class="label">IP da Workstation </span>
+        <div class="value">169.254.0.50</div>
+      </div>
+    </div>
+    
+    <div class="info-grid" style="margin-top: 15px;">
+      <div class="info-item" style="border-left-color: #2e7d32;">
+        <span class="label">Usuário ADM (Service)</span>
+        <div class="value">Login: service | Senha: service</div>
+      </div>
+      <div class="info-item" style="border-left-color: #0288d1;">
+        <span class="label">Usuário Comum</span>
+        <div class="value">Login: usuario | Senha: usuario</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📂 Caminhos e Manutenção</h2>
+    <ul class="checklist">
+      <li><b>Language:</b> <code>C:\database\language</code></li>
+      <li><b>Licence:</b> <code>C:\database\database\licence.lic</code></li>
+      <li><b>Backup:</b> <code>C:\XIPL</code> (Salvar tudo)</li>
+      <li><b>Logs:</b> <code>C:/database/Log</code> <b style="color: #c3080f; margin-left: 10px;">➔ AÇÃO: APAGAR</b></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>⚙️ Configuração Avançada</h2>
+    <ul class="checklist">
+      <li><b>Integração:</b> Registro de bloqueio</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📷 Áreas de Vídeos</h2>
+    <div class="video-grid">
+      <a href="https://drive.google.com/file/d/1cp2xtew2l53pRYhNENanQlWaA8ATYerr/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Config. Placa no Vieworks</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1Cu8foSKbw4xXS4HOGWG5tW84n6wDL1hC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Definir Aba Inicial</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1bSLd9Lrp7bojXLM93og3Hi3m9gsz8k4u/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Arquivos de Calibração</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1e3dria71ACPnRrNwZpE-fKRt_PvfGPTq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Acesso Rápido e Permissões</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1Lj7tSVFqVrNAChsEdTj5LNS97tsnGN0-/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Config. DICOM</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1oTnYGVvol-8orVnlORi3INJqtfyYNLvK/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="video-link">
+        <span class="video-icon">▶</span>
+        <span>Layouts e Impressões</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// --- LÓGICA DE TEMA ---
+const themeIcon = document.getElementById('theme-icon');
+if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.textContent = '☀️';
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+}
+</script>
+
+</body>
+</html>
